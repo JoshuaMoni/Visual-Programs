@@ -2,6 +2,7 @@ import pygame
 import math 
 import random
 import time 
+import tkinter as tk
 
 class Binary_selection():
     def __init__(self): 
@@ -50,20 +51,28 @@ class Binary_selection():
         return False
 
     def main(self): 
+        start_time = time.time()
         run = True
         lines = []
         algorithm = True
-        show = False
         for i in range(self.width): 
             lines.append(random.randrange(1, self.height + 1))
         while run: 
             event = pygame.event.poll()
             if event.type == pygame.QUIT:
+                pygame.display.quit()
                 run = False
             if algorithm:    
                 self.draw(self.win, self.width, lines)
                 algorithm = self.insertion_sort(self.win, self.width, lines)
-            if not algorithm and not show: 
-                show = True
-                print("Took: {}". format(time.time() - self.start))
-
+    """    
+    Found a better way to do this. 
+    Have left this here as a reference   
+    def time_taken(self, start): 
+        root = tk.Tk()
+        root.title("Run time")
+        root.geometry("100x100")
+        string = "Binary selection sort took: {}, to run.".format(time.time() - start)
+        run_time = tk.Label(root, text = string)
+        run_time.pack()
+    """

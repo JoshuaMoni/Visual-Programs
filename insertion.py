@@ -1,47 +1,70 @@
-import pygame 
+import pygame #Used to draw 
 import math 
 import random
 
-width, height = 400, 250
-win = pygame.display.set_mode((width, height))
-pygame.display.set_caption("Visual Insetion sort")
+class Insertion(): 
+    def __init__(self): 
+        self.width = 1000 #These dimensions should be changed otherwise it takes too long to run
+        self.height = 500
+        self.win = pygame.display.set_mode((self.width, self.height)) #For the display
+        pygame.display.set_caption("Visual Insetion sort")
 
-white = (255, 255, 255)
-black = (0, 0, 0)
-green = (0, 255, 0)
+        self.white = (255, 255, 255)
+        self.black = (0, 0, 0)
+        self.green = (0, 255, 0)
 
-def draw(win, width, lines): 
-    win.fill(white)
-
-    for i in range(width): 
-        #Here draw a line for each pixel on the width
-        pygame.draw.line(win, black, (i, 0), (i, lines[i]))
-    pygame.display.update()
+    def draw(self, win, width, lines): #Draws the lines
+        win.fill(self.white)
+        for i in range(width): 
+            #Here draw a line for each pixel on the width
+            pygame.draw.line(win, self.black, (i, 0), (i, lines[i]))
+        pygame.display.update()
     
-def insertion_sort(win, width, lines): 
-    for i in range(1, width): 
-        key = lines[i]
-        j = i - 1 
-        while j >= 0 and key < lines[j]: 
-            lines[j + 1] = lines[j]
-            j-= 1 
-            lines[j + 1] = key
-            
-            draw(win, width, lines)
-    return False
+    def insertion_sort(self, win, width, lines): 
+        for i in range(1, width): 
+            pygame.event.pump()
+            key = lines[i] #Key is the sorted part of the list, once it has been sorted it doesnt need to be drawn again
+            j = i - 1 
+            while j >= 0 and key < lines[j]: 
+                lines[j + 1] = lines[j]
+                j-= 1 
+                lines[j + 1] = key
+                
+                self.draw(win, width, lines)
+                
+        return False
 
-def main(): 
-    run = True
-    lines = []
-    for i in range(width): 
-        lines.append(random.randrange(1, height))
-    while run: 
-        event = pygame.event.poll()
-        if event.type == pygame.QUIT:
-            run = False
-    
-        draw(win, width, lines)
-        run = insertion_sort(win, width, lines)
+    def skip(self, win, width, lines): 
+        """Find a way to implement this that pygame will accept"""
+        for i in range(1, width): 
+            key = lines[i] #Key is the sorted part of the list, once it has been sorted it doesnt need to be drawn again
+            j = i - 1 
+            while j >= 0 and key < lines[j]: 
+                lines[j + 1] = lines[j]
+                j-= 1 
+                lines[j + 1] = key
 
+        self.draw(win, width, lines)
+        return False
 
-main()
+    def main(self): 
+        run = True
+        lines = []
+        algorithm = True
+        for i in range(self.width): 
+            lines.append(random.randrange(1, self.height))
+
+        while run: 
+            for event in pygame.event.get(): 
+                if event.type == pygame.QUIT:
+                    pygame.display.quit()
+                    run = False
+                if event.type == pygame.KEYDOWN:
+                    if event.key == pygame.K_SPACE: 
+                        self.skip(self.win, self.width, lines)
+
+                elif self.insertion_sort(self.win, self.width, lines): 
+                    self.draw(self.win, self.width, lines)
+
+#a = Insertion()
+#a.main()

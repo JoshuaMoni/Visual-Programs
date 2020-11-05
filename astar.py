@@ -287,4 +287,5 @@ def main(win, width):
                     grid = make_grid(rows, width)
     pygame.quit()
 
-main(win, width)
+class Main():
+    main(win, width)

@@ -40,16 +40,15 @@ class Selection():
         run = True
         lines = []
         algorithm = True
-        show = False
         for i in range(self.width): 
             lines.append(random.randrange(1, self.height + 1))
         while run: 
             event = pygame.event.poll()
             if event.type == pygame.QUIT:
+                pygame.display.quit()
                 run = False
             if algorithm:    
                 self.draw(self.win, self.width, lines)
                 algorithm = self.selection_sort(self.win, self.width, lines)
-            if not algorithm and not show: 
-                show = True
-                print("Took: {}". format(time.time() - self.start))
+#a = Selection()
+#a.main()
